@@ -17,7 +17,7 @@ function emailPresent(req, res, next) {
 module.exports = (app) => {
     app.get('/api', emailPresent, (req, res, next) => {
         res.status(200).send({
-            message: 'Kliining mocking test again api',
+            message: 'Kliining mocking email test route',
         })
     });
 
