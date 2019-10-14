@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     emailVerified: {
       allowNull: false,
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
     },
     resetToken: {
       allowNull: true,

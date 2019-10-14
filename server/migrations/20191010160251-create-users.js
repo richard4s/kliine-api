@@ -22,6 +22,7 @@ module.exports = {
       },
       email: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING
       },
       address: {
@@ -48,7 +49,6 @@ module.exports = {
       },
       isAdmin: {
         allowNull: true,
-        unique: true,
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
