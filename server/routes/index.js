@@ -1,9 +1,12 @@
 const Users = require('../controllers').Users;
 
+//Custom Middleware
+const verifyToken = require('../middleware/verifyToken');
+
 function emailPresent(req, res, next) {
     if(req.body.email) {
         res.status(200).send({
-            message: 'Usaage guyyyy',
+            message: 'Email is present',
             requests: req.body.email
         })
     } else {
@@ -23,4 +26,6 @@ module.exports = (app) => {
     app.post('/api/register', Users.register);
 
     app.delete('/api/destroy', Users.destroy);
+
+    app.get('/api/verify-email/:token', verifyToken, Users.verifyEmail);
 };

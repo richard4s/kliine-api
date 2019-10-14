@@ -6,6 +6,8 @@ const salt = bcrypt.genSaltSync(10);
 const nodemailer = require('nodemailer');
 var mailerhbs = require('nodemailer-express-handlebars');
 
+const jwt = require('jsonwebtoken');
+
 module.exports = {
     mock(req, res) {
         return Users
@@ -17,6 +19,7 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
 
+    //Register user
     register(req, res, next) {
         return Users
         .findOrCreate({
@@ -34,15 +37,21 @@ module.exports = {
                 isAdmin: false  
             }
         }).spread((user, created) => {
-            if(created){
+            if(created) {
+                const token = jwt.sign({
+                    data: req.body.email
+                  }, process.env.JWT_SECRET , { expiresIn: '1h' });
+                  
                     let verifyOptions = {
-                        from: 'Kliine <afolabioluwo50@gmail.com>',
+                        from: 'Kliine <noreply@kliine.com>',
                         to: req.body.email,
                         subject: 'Welcome to Kliine',
                         template: 'welcome',
-                            // context: { 
-                            //     verifyUrl: req.body.csoName,
-                            // }
+                            context: { 
+                                userId: user.id,
+                                verifyUrl: req.headers.host,
+                                token: token
+                            }
                     };
                 
                     const transporter1 = nodemailer.createTransport({
@@ -66,12 +75,12 @@ module.exports = {
                     
                     transporter1.use('compile', mailerhbs(handlebarOptions));
                     
-                    transporter1.sendMail(verifyOptions, function (err, info) {
+                    transporter1.sendMail(verifyOptions, (err, info) => {
                         if(err)
                             console.log(err)
                         else
                             console.log(info);
-                    }, function (err, response) {
+                    }, (err, response) => {
                         if (err) {
                             res.status(400).json({
                                 message: 'Error sending email.'
@@ -92,9 +101,27 @@ module.exports = {
             }
         })
         .catch(error => res.status(400).send(error));
-        
     },
 
+    //Verify user email
+    verifyEmail(req, res, next) {
+        return Users.update({
+                emailVerified: true
+            }, {
+                where: {
+                    email: res.locals.decodedToken
+                }
+            })
+            .then(user => {
+                res.status(201).send({
+                    message: "Email has been verified",
+                    user: user
+                })
+            })
+            .catch(error => res.status(400).send(error));
+    },
+
+    //Delete user from DB
     destroy(req, res, next) {
         return Users.destroy({
             where: {
