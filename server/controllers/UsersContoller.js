@@ -243,6 +243,33 @@ module.exports = {
         }));
     },
 
+    updateProfile(req, res, next) {
+         
+        try {
+            Object.keys(req.body).forEach((key) => {
+                console.log(key, req.body[key]);
+
+                return Users.update({
+                    key: req.body[key] 
+                }, {
+                    where: {
+                        id: req.body.id
+                    }
+                })
+            })
+                
+            res.status(201).send({
+                    message: 'Successfully updated user profile'
+                })
+        } catch(error) {
+            res.status(401).send({
+                message: 'Could not find user with that id. ' + error,
+                error: error
+            })
+        }
+                
+    },
+
     //Forgot Password
     forgotPassword(req, res, next) {
         return Users.findOne({

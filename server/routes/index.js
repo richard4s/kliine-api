@@ -39,6 +39,8 @@ module.exports = (app) => {
 
     app.post('/api/reset-password/:token', verifyToken, Users.resetPassword);
 
+    app.put('/api/update-profile', Users.updateProfile);
+
     app.delete('/api/destroy', adminCheck, Users.destroy);
 
     app.get('/api/verify-email/:token', verifyToken, Users.verifyEmail);
