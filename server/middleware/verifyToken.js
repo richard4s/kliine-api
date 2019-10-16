@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
                     res.locals.decodedToken = decoded.data;
                    next()
                 }
-            
+                
             });
           } catch {
               res.status(401).send({

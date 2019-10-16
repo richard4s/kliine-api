@@ -2,6 +2,7 @@ const Users = require('../controllers').Users;
 
 //Custom Middleware
 const verifyToken = require('../middleware/verifyToken');
+const login = require('../middleware/login');
 
 function emailPresent(req, res, next) {
     if(req.body.email) {
@@ -24,6 +25,8 @@ module.exports = (app) => {
     app.get('/api/mock', Users.mock);
 
     app.post('/api/register', Users.register);
+
+    app.post('/api/login', login, Users.login);
 
     app.delete('/api/destroy', Users.destroy);
 

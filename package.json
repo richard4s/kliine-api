@@ -29,7 +29,8 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.19.5",
     "sequelize-cli": "^5.5.1",
-    "uuidv4": "^5.0.1"
+    "uuidv4": "^5.0.1",
+    "validate.js": "^0.13.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.3"

@@ -121,6 +121,42 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
 
+    //Login user
+    login(req, res, next) {
+        return Users.findOne({
+            where: {
+                email: req.body.email
+            }
+        })
+        .then(user => {
+            bcrypt.compare(req.body.password, user.password, (err, result) => {
+                if(err) {
+                    return res.status(401).send({
+                        message: 'Something terrible went wrong'
+                    })
+                } else if(result) {
+                    const token = jwt.sign({
+                        data: user.email
+                      }, process.env.JWT_SECRET , { expiresIn: '1h' });
+                    
+                    return res.status(200).send({
+                        message: `${result} - user authenticated!`,
+                        token: token,
+                        user: user
+                    })
+                } else if(!result) {
+                    return res.status(401).send({
+                        message: 'Password incorrect',
+                        user: result
+                    })
+                }
+            })
+        })
+        .catch(error => res.status(400).send({
+            message: 'Could not find user with that email'
+        }));
+    },
+
     //Delete user from DB
     destroy(req, res, next) {
         return Users.destroy({
