@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 
 module.exports = (req, res, next) => {
     if(req.params.token) {     

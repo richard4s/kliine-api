@@ -1,18 +1,43 @@
 const jwt = require('jsonwebtoken');
+const Users = require('../models').Users;
+const validator = require('validator');
 
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
+
+    if(validator.isEmail(req.body.email)) {
+      Users.findOne({
+        where: {
+          email: req.body.email
+        }
+      })
+      //check if email is verified
+      .then(users => {
+        if(users.emailVerified) {
+          res.locals.isEmailVerified = true;
+          next()
+        } else {
+          res.locals.isEmailVerified = false;
+          res.status(401).send({
+            message: 'Authentication failed',
+            isEmailVerified: res.locals.isEmailVerified
+          })
+        }  
+      })
+      .catch(error => {
+        res.status(401).send({
+          message: 'Authentication failed'
+        })
+      })
     } else {
-      next();
+      res.status(401).send({
+        message: 'That does not look like a valid email address'
+      })
     }
-  } catch {
+
+  } catch(e) {
     res.status(401).json({
-      error: new Error('Invalid request!')
+      error: e
     });
   }
 };

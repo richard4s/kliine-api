@@ -1,38 +1,30 @@
 const jwt = require('jsonwebtoken');
-const validator = require('./validations/validate');
+const validator = require('validator');
 
 module.exports = (req, res, next) => {
     if(req.body.email && req.body.password) {  
 
-    //     const userCheck = new Schema({
-    //         email: {
-    //             type: String,
-    //             required: true,
-    //             length: {
-    //                 min: 6,
-    //                 max: 32
-    //             },
-    //             match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-    //         },
-    //         password: {
-    //             type: String,
-    //             required: true,
-    //             length: {
-    //                 min: 6,
-    //                 max: 64
-    //             }
-    //         }
-    //     }) ;
-
-    //     const errors = userCheck.validate(req.body.email);
-
-        // const emailCheck = validator(req.body.email, email);
-
-        // if(emailCheck)
-        //     return res.status(401).send(emailCheck);
-        // else
-        //     return res.status(200).send(emailCheck);
-        next()
+        try {
+            if(validator.isEmail(req.body.email)) {
+                if(validator.isLength(req.body.password, {min: 2, max: 64})) {
+                    next()
+                } else {
+                    res.status(400).send({
+                        error: 'That does not look like a valid password'
+                    })
+                }       
+            } else {
+                res.status(400).send({
+                    error: 'That does not look like an email address'
+                })
+            }
+                
+        } catch(e) {
+            res.status(400).send({
+                error: e
+            })
+        }
+        
 
     } else {
         return res.status(400).send({

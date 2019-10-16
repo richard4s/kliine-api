@@ -85,6 +85,7 @@ Route to delete users
 **In future** must be admin to do this
 ### Fields
 - `email`, type: `string`
+- `whoAreYou`, type: `string`, description: `Email of user(must be admin)`
 ### JSON Response 
 - `message`, type: `string`
 - `user`, type: `int`, description: `number of users deleted`
@@ -92,13 +93,40 @@ Route to delete users
 - `success - 200`
 - `error - 400`
 
+## Resend Email Verification Endpoint
+`/api/resend-verification`
+### Get REQUEST
+Route to resend email verification
+### Fields
+- `email`, type: `string`
+### JSON RESPONSE
+- `message`, type: `string`
+- `toEmail`, type: `string`, description: `Email the verification email was sent to`
+#### Status Codes
+- `success - 201`
+- `error - 400`
+- `JWT error - 401`
+
+## Forgot Password Endpoint
+`/api/forgot-password`
+### Get REQUEST
+Route to reset password
+### Fields
+- `email`, type: `string`
+### JSON RESPONSE
+- `message`, type: `string`
+#### Status Codes
+- `success - 201`
+- `error - 400`
+- `JWT error - 401`
+
 # Things left to do for auth
-- middleware for password, email and phone number string validations
-- middleware to verify token on login and return user info
-- check if email is verified when logged in
-- check if authenticated for future actions
-- resend email verification
-- forgot password
-- check if admin for admin routes
-- check if admin middleware to delete user
-- resend verification email
+- middleware for password, email and phone number string validations - **(register middleware)**
+- middleware to verify token on login and return user info - **(auth middleware)**
+- check if email is verified when logged in - **(auth and verifyToken middleware)**
+- check if authenticated for future actions - **(auth and verifyToken middleware)**
+- resend email verification - **`/api/resend-verification`**
+- forgot password - **`/api/forgot-password`**
+- check if admin for admin routes **(admin middleware)**
+- check if admin middleware to delete user **(adminCheck middleware)**
+- update user information - **Update any available fields**
