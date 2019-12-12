@@ -1,4 +1,6 @@
+//Controllers
 const Users = require('../controllers').Users;
+const Plans = require('../controllers').Plans;
 
 //Custom Middleware
 const verifyToken = require('../middleware/verifyToken');
@@ -21,6 +23,7 @@ function emailPresent(req, res, next) {
 }
 
 module.exports = (app) => {
+    // User-Related Endpoints
     app.get('/api', emailPresent, (req, res, next) => {
         res.status(200).send({
             message: 'Kliining mocking email test route',
@@ -44,4 +47,7 @@ module.exports = (app) => {
     app.delete('/api/destroy', adminCheck, Users.destroy);
 
     app.get('/api/verify-email/:token', verifyToken, Users.verifyEmail);
+
+    //Plans-Related Endpoints
+    app.get('/api/plans/mock', Plans.mock);
 };

@@ -7,6 +7,8 @@ module.exports = (sequelize, DataTypes) => {
   },
 
 });
+
+
   Status.associate = function(models) {
     // associations can be defined here
     Status.belongsTo(models.Users);
