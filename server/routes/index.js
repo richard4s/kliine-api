@@ -50,4 +50,5 @@ module.exports = (app) => {
 
     //Plans-Related Endpoints
     app.get('/api/plans/mock', Plans.mock);
+    app.post('/api/plans/create', Plans.createPlan);
 };
