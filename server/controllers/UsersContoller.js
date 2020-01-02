@@ -216,7 +216,7 @@ module.exports = {
             bcrypt.compare(req.body.password, user.password, (err, result) => {
                 if(err) {
                     return res.status(401).send({
-                        message: 'Something terrible went wrong'
+                        error: 'Something terrible went wrong'
                     })
                 } else if(result) {
                     const token = jwt.sign({
@@ -224,7 +224,7 @@ module.exports = {
                       }, process.env.JWT_SECRET , { expiresIn: '1h' });
                     
                     return res.status(200).send({
-                        message: `${result} - user authenticated!`,
+                        success: `${result} - user authenticated!`,
                         token: token,
                         // isEmailVerified: res.locals.isEmailVerified,
                         user: user

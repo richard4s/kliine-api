@@ -1,4 +1,8 @@
+//Models
 const Plans = require('../models').Plans;
+const PlanTypes = require('../models').PlanType;
+
+//Constants
 const planTypes = require('../../constants/plans');
 const status = require('../../constants/status');
 

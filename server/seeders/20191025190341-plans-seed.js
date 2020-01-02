@@ -12,8 +12,24 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('Plans', [{
+    return queryInterface.bulkInsert('PlanTypes', [{
       name: 'youngin',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, {
+      name: 'standard',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, {
+      name: 'kliine',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, {
+      name: 'kliinePlus',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, {
+      name: 'custom',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
@@ -27,6 +43,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('Plans', null, {});
+    return queryInterface.bulkDelete('PlanTypes', null, {});
   }
 };
