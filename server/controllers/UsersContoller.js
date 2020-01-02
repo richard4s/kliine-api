@@ -15,7 +15,7 @@ module.exports = {
             .findAll()
             .then(Users => res.status(200).send({
                 users: Users,
-                message: 'Mocking Test!'
+                success: 'Mocking Test!'
             }))
             .catch(error => res.status(400).send(error));
     },
@@ -90,13 +90,13 @@ module.exports = {
                 })
 
                 res.status(200).send({
-                    message: 'User created successfully',
+                    success: 'User created successfully',
                     user: user,
                     created: created
                 })
             } else {
                 res.status(400).send({
-                    message: 'User with that email already exists',
+                    error: 'User with that email already exists',
                     created: created
                 })
             }
@@ -115,11 +115,11 @@ module.exports = {
             })
             .then(user => {
                 res.status(201).send({
-                    message: "Email has been verified",
+                    success: "Email has been verified",
                     user: user
                 })
             })
-            .catch(error => res.status(400).send(error));
+            .catch(error => res.status(400).send({ error: error }));
     },
 
     //Resend verification email
@@ -133,8 +133,8 @@ module.exports = {
             .then(user => {
                 if(user.emailVerified) {
 
-                    return res.status(200).send({
-                        message: 'Your email has already been verified.'
+                    return res.status(400).send({
+                        error: 'Your email has already been verified.'
                     })
                 } 
                 else {
@@ -182,25 +182,25 @@ module.exports = {
                         }, (err, response) => {
                             if (err) {
                                 return res.status(400).json({
-                                    message: 'Error sending email.'
+                                    error: 'Error sending email.'
                                 });
                             }
                     })
             
                     return res.status(200).send({
-                        message: 'Verification email sent',
+                        success: 'Verification email sent',
                         toEmail: req.body.email
                     })                
                 }            
             })
             .catch(error => {
                 return res.status(400).send({
-                    message: error
+                    error: error
                 });
             }) 
         } else {
             return res.status(400).send({
-                message: 'That does not look like a valid email'
+                error: 'That does not look like a valid email'
             });
         }
     },
@@ -232,14 +232,14 @@ module.exports = {
                     
                 } else if(!result) {
                     return res.status(401).send({
-                        message: 'Password incorrect',
+                        error: 'Password incorrect',
                         user: result
                     })
                 }
             })
         })
         .catch(error => res.status(400).send({
-            message: 'Could not find user with that email'
+            error: 'Could not find user with that email'
         }));
     },
 
@@ -259,11 +259,11 @@ module.exports = {
             })
                 
             res.status(201).send({
-                    message: 'Successfully updated user profile'
+                    success: 'Successfully updated user profile'
                 })
         } catch(error) {
             res.status(401).send({
-                message: 'Could not find user with that id. ' + error,
+                error: 'Could not find user with that id. ' + error,
                 error: error
             })
         }
@@ -322,18 +322,18 @@ module.exports = {
                 }, (err, response) => {
                     if (err) {
                         return res.status(400).json({
-                            message: 'Error sending email.'
+                            error: 'Error sending email.'
                         });
                     }
             })
     
             res.status(200).send({
-                message: 'Password reset email sent',
+                success: 'Password reset email sent',
                 toEmail: req.body.email
             })    
         })
         .catch(error => res.status(400).send({
-            message: 'Could not find user with that email' + error 
+            error: 'Could not find user with that email' + error 
         }));
     },
 
@@ -349,11 +349,11 @@ module.exports = {
             })
             .then(user => {
                 res.status(201).send({
-                    message: "Password has been reset",
+                    success: "Password has been reset",
                     user: user
                 })
             })
-            .catch(error => res.status(400).send(error));
+            .catch(error => res.status(400).send({error: error}));
     },
 
     //Delete user from DB
@@ -365,11 +365,11 @@ module.exports = {
         })
         .then(user => {
             res.status(200).send({
-                message: 'User deleted!',
+                success: 'User deleted!',
                 user: user, //Returns number of users deleted
                 isAdmin: res.locals.isAdmin
             })
         })
-        .catch(error => res.status(400).send(error));
+        .catch(error => res.status(400).send({error: error}));
     },
 };

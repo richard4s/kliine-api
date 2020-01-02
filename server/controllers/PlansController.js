@@ -30,11 +30,11 @@ module.exports = {
             .then((Plan) =>  {
                 return res.status(201).send({
                     success: 'Plan Created Successfully!',
-                    Plan: Plan
+                    plan: Plan
                 })
-            }).catch(error => res.status(400).send(error));
+            }).catch(error => res.status(400).send({error: error}));
         })
-        .catch(error => res.status(400).send(error));
+        .catch(error => res.status(400).send({error: error}));
     }
 
     // youngin(req, res, next) {
