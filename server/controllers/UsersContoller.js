@@ -84,7 +84,7 @@ module.exports = {
                     }, (err, response) => {
                         if (err) {
                             res.status(400).json({
-                                message: 'Error sending email.'
+                                error: 'Error sending email.'
                             });
                         }
                 })
