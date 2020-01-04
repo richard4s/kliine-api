@@ -120,6 +120,38 @@ Route to reset password
 - `error - 400`
 - `JWT error - 401`
 
+# Plans API
+## Mocking Plan Endpoint
+`/api/plans/mock`
+### GET REQUEST
+Route to get all plans
+### JSON RESPONSE
+- `plans`, type: `json object`,
+- `success`, type: `string`
+#### Status Codes
+- `success - 200`
+- `error - 400`
+
+## Create Plan Endpoint
+`/api/plans/create`
+### GET REQUEST
+Route to create a plan
+### Fields
+- `name`, type: `string`,
+- `userId`, type: `int`,
+- `type`, type: `int`,
+- `rooms`, type: `int`,
+- `bathroom`, type: `int`,
+- `laundry`, type: `boolean`,
+- `duration`, type: `dateTime`,
+- `expDate`, type: `dateTime`
+### JSON RESPONSE
+- `plans`, type: `json object`,
+- `success`, type: `string`
+#### Status Codes
+- `success - 200`
+- `error - 400`
+
 # Things left to do for auth
 - middleware for password, email and phone number string validations - **(register middleware)**
 - middleware to verify token on login and return user info - **(auth middleware)**

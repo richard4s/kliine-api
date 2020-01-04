@@ -10,10 +10,10 @@ module.exports = {
     mock(req, res) {
         return Plans.findAll()
         .then(Plans => res.status(200).send({
-            users: Users,
-            message: 'Plans Mocking Test!'
+            plans: Plans,
+            success: 'Plans Mocking Test!'
         }))
-        .catch(error => res.status(400).send(error))
+        .catch(error => res.status(400).send({error: error}))
     },
 
     createPlan(req, res, next) {
