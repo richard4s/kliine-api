@@ -14,6 +14,11 @@ module.exports = {
     */
     return queryInterface.bulkInsert('PlanTypes', [{
       name: 'youngin',
+      price: 20000,
+      rooms: 2,
+      bathrooms: 1,
+      laundry: 12,
+      duration: 30,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {

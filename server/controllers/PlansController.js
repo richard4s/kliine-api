@@ -9,11 +9,11 @@ const status = require('../../constants/status');
 module.exports = {
     mock(req, res) {
         return Plans.findAll()
-        .then(Plans => res.status(200).send({
+        .then((Plans) => res.status(200).send({
             plans: Plans,
             success: 'Plans Mocking Test!'
         }))
-        .catch(error => res.status(400).send({error: error}))
+        .catch((error) => res.status(400).send({error: error}))
     },
 
     createPlan(req, res, next) {
@@ -23,10 +23,7 @@ module.exports = {
             status: status.active,
             userId: req.body.userId,
             type: req.body.planType,
-            rooms: req.body.rooms,
-            bathroom: req.body.bathroom,
-            laundry: req.body.laundry,
-            duration: req.body.duration,
+            address: req.body.address,
             expDate: req.body.expDate
         })
         .spread((plan, created) =>  {
@@ -40,21 +37,5 @@ module.exports = {
         })
         .catch(error => res.status(400).send({error: error}));
     }
-
-    // youngin(req, res, next) {
-
-    // },
-
-    // standard(req, res, res) {
-
-    // },
-
-    // kliine(req, res, next) {
-
-    // },
-
-    // kliinePlus(req, res, next) {
-        
-    // }
 
 }

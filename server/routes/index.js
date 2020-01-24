@@ -42,7 +42,7 @@ module.exports = (app) => {
 
     app.post('/api/reset-password/:token', verifyToken, Users.resetPassword);
 
-    app.put('/api/update-profile', Users.updateProfile);
+    app.put('/api/update-profile', Users.updateProfile); //Middleware Needed
 
     app.delete('/api/destroy', adminCheck, Users.destroy);
 

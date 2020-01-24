@@ -45,17 +45,15 @@ module.exports = {
       status: {
         allowNull: true,
         type: Sequelize.INTEGER,
-        defaultValue: false,
         references: {
-          model: 'Status',
+          model: 'Statuses',
           key: 'id',
-          as: 'status',
+          as: 'statusId',
         },
       },
       isAdmin: {
         allowNull: true,
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+        type: Sequelize.BOOLEAN
       },
       // status: {
       //   allowNull: true,

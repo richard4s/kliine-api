@@ -37,22 +37,9 @@ module.exports = {
           key: 'id'
         },
       },
-      rooms: {
+      address: {
         allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      bathrooms: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      laundry: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      //Subtract time from duration
-      duration: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       expDate: {
         allowNull: false,

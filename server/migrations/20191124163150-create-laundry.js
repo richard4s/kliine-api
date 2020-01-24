@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('PlanTypes', {
+    return queryInterface.createTable('Laundries', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,26 +12,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      price: {
-        allowNull: true,
+      //Calibrated Weekly i.e. if frequency = 1, then once weekly
+      frequency: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
-      rooms: {
-        allowNull: true,
-        type: Sequelize.INTEGER
-      },
-      laundry: {
-        allowNull: true,
-        type: Sequelize.INTEGER
-      },
-      meals: {
-        allowNull: true,
-        type: Sequelize.INTEGER
-      },
-      //Subtract plan createdAt from duration
-      //Integer calibrated in days
-      duration: {
-        allowNull: true,
+      clothes: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -45,6 +32,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('PlanTypes');
+    return queryInterface.dropTable('Laundries');
   }
 };
