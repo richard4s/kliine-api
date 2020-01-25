@@ -16,7 +16,7 @@ module.exports = {
         .catch((error) => res.status(400).send({ error: error }))
     },
 
-    mockPlanTypes(re, res, next) {
+    mockPlanTypes(res, res, next) {
         return PlanTypes.findAll()
         .then((PlanTypes) => res.status(200).send({
             planTypes: PlanTypes,
