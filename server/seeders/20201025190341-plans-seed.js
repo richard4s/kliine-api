@@ -15,26 +15,46 @@ module.exports = {
     return queryInterface.bulkInsert('PlanTypes', [{
       name: 'youngin',
       price: 20000,
-      rooms: 2,
-      bathrooms: 1,
-      laundry: 12,
+      rooms: 1,
+      laundry: 1,
+      meals: 1,
       duration: 30,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       name: 'standard',
+      price: 27000,
+      rooms: 2,
+      laundry: 2,
+      meals: 2,
+      duration: 30,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       name: 'kliine',
+      price: 40000,
+      rooms: 3,
+      laundry: 3,
+      meals: 3,
+      duration: 30,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       name: 'kliinePlus',
+      price: 60000,
+      rooms: 4,
+      laundry: 4,
+      meals: 4,
+      duration: 30,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       name: 'custom',
+      price: 70000,
+      rooms: 4,
+      laundry: 5,
+      meals: 5,
+      duration: 30,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});

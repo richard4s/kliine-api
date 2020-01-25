@@ -21,9 +21,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      //How much recipe's per week
       recipe: {
-        allowNull: false,
-        type: Sequelize.INTEGER
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'MealTypes',
+          key: 'id',
+          as: 'mealTypesId',
+        },
       },
       createdAt: {
         allowNull: false,

@@ -18,15 +18,30 @@ module.exports = {
       },
       rooms: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Rooms',
+          key: 'id',
+          as: 'roomsId',
+        },
       },
       laundry: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Laundries',
+          key: 'id',
+          as: 'laundryId',
+        },
       },
       meals: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Meals',
+          key: 'id',
+          as: 'mealsId',
+        },
       },
       //Subtract plan createdAt from duration
       //Integer calibrated in days

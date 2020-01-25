@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER
     },
+    clothes: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    }
   });
   Laundry.associate = function(models) {
     // associations can be defined here

@@ -1,4 +1,9 @@
 'use strict';
+
+const Rooms = require('../models').Rooms;
+const Laundries = require('../models').Laundries;
+const Meals = require('../models').Meals;
+
 module.exports = (sequelize, DataTypes) => {
   const PlanType = sequelize.define('PlanType', {
     name: {
@@ -12,11 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     rooms: {
       allowNull: false,
       type: DataTypes.INTEGER
-    }, 
-    bathroom: {
-      allowNull: false,
-      type: DataTypes.INTEGER
-    }, 
+    },
     laundry: {
       allowNull: false,
       type: DataTypes.INTEGER
@@ -34,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
   
   PlanType.associate = function(models) {
     // associations can be defined here
+    // PlanType.hasMany(Rooms)
+    // PlanType.hasMany(Laundries)
+    // PlanType.hasMany(Meals)
   };
   return PlanType;
 };

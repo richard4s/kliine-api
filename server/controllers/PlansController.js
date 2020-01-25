@@ -13,7 +13,16 @@ module.exports = {
             plans: Plans,
             success: 'Plans Mocking Test!'
         }))
-        .catch((error) => res.status(400).send({error: error}))
+        .catch((error) => res.status(400).send({ error: error }))
+    },
+
+    mockPlanTypes(re, res, next) {
+        return PlanTypes.findAll()
+        .then((PlanTypes) => res.status(200).send({
+            planTypes: PlanTypes,
+            success: 'Gotten the plan Types'
+        }))
+        .catch((error) => res.status(400).send({ error: error }))
     },
 
     createPlan(req, res, next) {

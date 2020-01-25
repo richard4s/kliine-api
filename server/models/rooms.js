@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Rooms.associate = function(models) {
     // associations can be defined here
+    // Rooms.belongTo(models.PlanType)
   };
   return Rooms;
 };

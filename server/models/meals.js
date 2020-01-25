@@ -11,13 +11,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER
     },
+    //Also Known as Meal Types
     recipe: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER
     },
   });
   Meals.associate = function(models) {
     // associations can be defined here
+    Meals.hasMany(models.MealType)
   };
   return Meals;
 };
