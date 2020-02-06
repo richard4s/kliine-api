@@ -7,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     //Calibrated Weekly i.e. if frequency = 1, then once weekly
+    frequency: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
     people: {
       allowNull: false,
       type: DataTypes.INTEGER
@@ -14,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     //Also Known as Meal Types
     recipe: {
       allowNull: true,
+      unique: true,
       type: DataTypes.INTEGER
     },
   });

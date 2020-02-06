@@ -6,6 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        unique: true,
         type: Sequelize.INTEGER
       },
       name: {
@@ -25,6 +26,7 @@ module.exports = {
       recipe: {
         allowNull: true,
         type: Sequelize.INTEGER,
+        unique: true,
         references: {
           model: 'MealTypes',
           key: 'id',

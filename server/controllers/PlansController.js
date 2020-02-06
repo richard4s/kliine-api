@@ -1,6 +1,7 @@
 //Models
 const Plans = require('../models').Plans;
 const PlanTypes = require('../models').PlanType;
+const MealTypes = require('../models').PlanType;
 
 //Constants
 const planTypes = require('../../constants/plans');
@@ -16,8 +17,10 @@ module.exports = {
         .catch((error) => res.status(400).send({ error: error }))
     },
 
-    mockPlanTypes(res, res, next) {
-        return PlanTypes.findAll()
+    mockPlanTypes(req, res, next) {
+        return PlanTypes.findAll({
+            attributes : ['id', 'name', 'price', 'rooms', 'laundry', 'meals', 'duration']
+        })
         .then((PlanTypes) => res.status(200).send({
             planTypes: PlanTypes,
             success: 'Gotten the plan Types'
