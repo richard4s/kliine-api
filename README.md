@@ -132,6 +132,25 @@ Route to get all plans
 - `success - 200`
 - `error - 400`
 
+## Get Pricing Plan Endpoint
+`/api/plans/mockPlanTypes`
+### GET REQUEST
+Route to create a plan
+### Fields
+- `name`, type: `string`,
+- `pricing`, type: `int`,
+- `meals`, type: `int`,
+- `laundry`, type: `int`,
+- `rooms`, type: `int`,
+- `duration`, type: `dateTime`,
+- `expDate`, type: `dateTime`
+### JSON RESPONSE
+- `planTypes`, type: `json object`,
+- `success`, type: `string`
+#### Status Codes
+- `success - 200`
+- `error - 400`
+
 ## Create Plan Endpoint
 `/api/plans/create`
 ### GET REQUEST
@@ -146,7 +165,7 @@ Route to create a plan
 - `duration`, type: `dateTime`,
 - `expDate`, type: `dateTime`
 ### JSON RESPONSE
-- `plans`, type: `json object`,
+- `planTypes`, type: `json object`,
 - `success`, type: `string`
 #### Status Codes
 - `success - 200`

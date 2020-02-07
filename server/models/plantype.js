@@ -38,6 +38,17 @@ module.exports = (sequelize, DataTypes) => {
     // PlanType.hasMany(Rooms)
     // PlanType.hasMany(Laundries)
     // PlanType.hasMany(Meals)
+    PlanType.hasMany(models.Rooms, {
+      as: 'roomsPlanTypes'
+    });
+
+    // PlanType.hasMany(models.Laundries, {
+    //   as: 'laundriesPlanTypes'
+    // });
+
+    // PlanType.hasMany(models.Meals, {
+    //   as: 'mealsPlanTypes'
+    // });
   };
   return PlanType;
 };

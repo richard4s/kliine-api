@@ -19,6 +19,22 @@ module.exports = (sequelize, DataTypes) => {
   Rooms.associate = function(models) {
     // associations can be defined here
     // Rooms.belongTo(models.PlanType)
+
+    // Rooms.hasMany(models.PlanType,{
+    //   as: 'roomsPlanTypes'
+    // });
+
+    // associate(models) {
+      Rooms.belongsTo(models.PlanType, {
+        foreignKey: 'id',
+        as: 'roomsforPlanType',
+      });
+    //   this.belongsTo(models.user, {
+    //     foreignKey: 'updated_by_user_id',
+    //     as: 'updated_by',
+    //   });
+    // },
+
   };
   return Rooms;
 };
