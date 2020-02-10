@@ -9,10 +9,13 @@ const passport = require('passport');
 // const expressSession = require('express-session');
 const path = require('path');
 
+const multer  = require('multer');
+const bb = require('express-busboy');
+
 // Set up the express app
 const app = express();
 
-app.use(express.json())
+// app.use(express.json())
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger('dev'));
 
 app.use(require('cookie-parser')());
+
+bb.extend(app);
 // app.use(expressSession({secret: process.env.JWT_SECRET}));
 
 // app.use(passport.initialize());

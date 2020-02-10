@@ -60,6 +60,11 @@ module.exports = (sequelize, DataTypes) => {
     // });
 
     Users.hasMany(models.Status)
+
+    // Users.belongsTo(models.Status, {
+    //   foreignKey: 'id',
+    //   as: 'userStatusId',
+    // });
   };
 
   return Users;

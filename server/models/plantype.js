@@ -38,8 +38,23 @@ module.exports = (sequelize, DataTypes) => {
     // PlanType.hasMany(Rooms)
     // PlanType.hasMany(Laundries)
     // PlanType.hasMany(Meals)
-    PlanType.hasMany(models.Rooms, {
-      as: 'roomsPlanTypes'
+    // PlanType.hasMany(models.Rooms, {
+    //   as: 'roomsPlanTypes'
+    // });
+
+    PlanType.belongsTo(models.Rooms, {
+      foreignKey: 'id',
+      as: 'roomsforPlanType',
+    });
+
+    PlanType.belongsTo(models.Laundry, {
+      foreignKey: 'id',
+      as: 'laundriesPlanType',
+    });
+
+    PlanType.belongsTo(models.Meals, {
+      foreignKey: 'id',
+      as: 'mealsPlanType',
     });
 
     // PlanType.hasMany(models.Laundries, {
@@ -50,5 +65,6 @@ module.exports = (sequelize, DataTypes) => {
     //   as: 'mealsPlanTypes'
     // });
   };
+
   return PlanType;
 };

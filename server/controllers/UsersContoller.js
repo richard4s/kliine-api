@@ -101,7 +101,10 @@ module.exports = {
                 })
             }
         })
-        .catch(error => res.status(400).send(error));
+        .catch(error =>  {
+            console.log('Errors: ', error)
+            res.status(400).send(error)
+        });
     },
 
     //Verify user email

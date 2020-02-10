@@ -1,8 +1,10 @@
 //Models
 const Plans = require('../models').Plans;
 const PlanTypes = require('../models').PlanType;
-const MealTypes = require('../models').PlanType;
+const Meals = require('../models').Meals;
+const MealType = require('../models').MealType;
 const Rooms = require('../models').Rooms;
+const Laundry = require('../models').Laundry;
 
 //Constants
 const planTypes = require('../../constants/plans');
@@ -20,14 +22,35 @@ module.exports = {
 
     mockPlanTypes(req, res, next) {
         return PlanTypes.findAll({
-            attributes : ['id', 'name', 'price', 'rooms', 'laundry', 'meals', 'duration'],
-            // include: [{
-            //     model: Rooms,
-            //     // where: {id: 1},
-            //     as: 'roomsPlanTypes',
-            //     attributes: ['id', 'name', 'frequency', 'rooms']
-            //     // required: false
-            //    }]
+            attributes: {
+                exclude: ['rooms', 'laundry', 'meals', 'createdAt', 'updatedAt']
+            },
+            include: [{
+                model: Rooms,
+                as: 'roomsforPlanType',
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }, {
+                model: Laundry,
+                as: 'laundriesPlanType',
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }, {
+                model: Meals,
+                as: 'mealsPlanType',
+                include: [{
+                    model: MealType,
+                    as: 'mealTypesPlanType',
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                }],
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }],
         })
         .then((PlanTypes) => res.status(200).send({
             planTypes: PlanTypes,

@@ -12,6 +12,7 @@ module.exports = (req, res, next) => {
             error: 'That does not look like a valid email'
         })
   } catch(e) {
+    console.log('Not receiving request', req.body.email)
     res.status(401).json({
       error: e
     });
