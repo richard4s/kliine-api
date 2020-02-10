@@ -9,6 +9,9 @@ var mailerhbs = require('nodemailer-express-handlebars');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
+const Sequelize = require('sequelize');
+const { Op } = Sequelize.Op;
+
 module.exports = {
     mock(req, res) {
         return Users
@@ -225,13 +228,17 @@ module.exports = {
                     const token = jwt.sign({
                         data: user.email
                       }, process.env.JWT_SECRET , { expiresIn: '1h' });
+
+                      res.locals.userLogin = user;
+                      res.locals.loginToken = token;
                     
-                    return res.status(200).send({
-                        success: `${result} - user authenticated!`,
-                        token: token,
-                        // isEmailVerified: res.locals.isEmailVerified,
-                        user: user
-                    })
+                    // return res.status(200).send({
+                    //     success: `${result} - user authenticated!`,
+                    //     token: token,
+                    //     // isEmailVerified: res.locals.isEmailVerified,
+                    //     user: user
+                    // })
+                     next();
                     
                 } else if(!result) {
                     return res.status(401).send({
@@ -249,23 +256,53 @@ module.exports = {
     updateProfile(req, res, next) {
          
         try {
-            Object.keys(req.body).forEach((key) => {
-                console.log(key, req.body[key]);
 
-                return Users.update({
-                    key: req.body[key] 
-                }, {
+            const updateFields = req.body;
+
+            // let updateData = {};
+            // updateData[day] = hoursString;
+
+            // Object.keys(req.body).map((key) => {
+                // console.log(key, req.body[key]);
+                // let fieldData = key;
+                console.log(req.headers.authorization)
+                console.log(req.body)
+                Users.update(updateFields, {
                     where: {
-                        id: req.body.id
+                        id: req.headers.userId
                     }
+                }).then((user) => {
+                    
+                    return res.status(200).send({
+                        success: user
+                    })
                 })
-            })
+                .catch((err) => {
+                    return res.status(400).send({
+                        error: err
+                    })
+                })
+            // })
+
+            
+
+            // Object.keys(req.body).forEach((key) => {
+            //     console.log(key, req.body[key]);
+
+            //     return Users.update({
+            //         key: req.body[key] 
+            //     }, {
+            //         where: {
+            //             id: req.body.id
+            //         }
+            //     })
+            // })
                 
-            res.status(201).send({
-                    success: 'Successfully updated user profile'
-                })
+            // res.status(201).send({
+            //         success: 'Successfully updated user profile'
+            //     })
         } catch(error) {
-            res.status(401).send({
+            return res.status(401).send({
                 error: 'Could not find user with that id. ' + error,
                 error: error
             })

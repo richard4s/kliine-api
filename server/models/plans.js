@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'userId',
       },
   }, 
-  types: {
+  type: {
     allowNull: false,
     type: DataTypes.INTEGER,
     onDelete: 'CASCADE',
@@ -50,6 +50,13 @@ module.exports = (sequelize, DataTypes) => {
     // Plans.hasMany(models.Status)
     // Plans.hasMany(models.Users)
     // Plans.hasMany(models.PlanType)
+
+    Plans.belongsTo(models.PlanType, {
+      foreignKey: 'type',
+      as: 'planType',
+    });
+
+    
   };
   return Plans;
 };

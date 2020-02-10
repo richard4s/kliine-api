@@ -11,6 +11,9 @@ const admin = require('../middleware/admin');
 const adminCheck = require('../middleware/adminCheck');
 const emailCheck = require('../middleware/emailCheck');
 
+const loginHandler = require('../middleware/loginHandler');
+const verifyHeaders = require('../middleware/verifyHeaders');
+
 function emailPresent(req, res, next) {
     if(req.body.email) {
         res.status(200).send({
@@ -34,7 +37,7 @@ module.exports = (app) => {
 
     app.post('/api/register', [emailCheck, register], Users.register);
 
-    app.post('/api/login', login, Users.login);
+    app.post('/api/login', login, Users.login, loginHandler);
 
     app.post('/api/resend-verification', Users.resendVerification);
 
@@ -51,5 +54,7 @@ module.exports = (app) => {
     //Plans-Related Endpoints
     app.get('/api/plans/mock', Plans.mock);
     app.get('/api/plans/mockPlanTypes', Plans.mockPlanTypes);
-    app.post('/api/plans/create', Plans.createPlan);
+    app.get('/api/plans/test', verifyHeaders, Plans.test);
+    app.get('/api/plans/user', verifyHeaders, Plans.planForUser);
+    app.post('/api/plans/create', verifyHeaders, Plans.createPlan);
 };
