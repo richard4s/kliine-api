@@ -153,6 +153,22 @@ Route to create a plan
 
 ## Create Plan Endpoint
 `/api/plans/create`
+### POST REQUEST
+Route to create a plan
+### Fields
+- `name`, type: `string`,
+- `type`, type: `int`,
+- `duration`, type: `dateTime`,
+- `expDate`, type: `dateTime`
+### JSON RESPONSE
+- `planTypes`, type: `json object`,
+- `success`, type: `string`
+#### Status Codes
+- `success - 200`
+- `error - 400`
+
+## Create Plan Endpoint
+`/api/plans/create`
 ### GET REQUEST
 Route to create a plan
 ### Fields
@@ -166,6 +182,17 @@ Route to create a plan
 - `expDate`, type: `dateTime`
 ### JSON RESPONSE
 - `planTypes`, type: `json object`,
+- `success`, type: `string`
+#### Status Codes
+- `success - 200`
+- `error - 400`
+
+## Get Plan For One User Endpoint
+`/api/plans/user`
+### GET REQUEST
+Route to create a plan
+### JSON RESPONSE
+- `plan`, type: `json object`,
 - `success`, type: `string`
 #### Status Codes
 - `success - 200`
