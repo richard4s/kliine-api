@@ -166,6 +166,91 @@ module.exports = {
                 error: err
             })
         })
+    },
+
+    createCustomPlan(req, res, next) {
+        Users.findOne({
+            where: {
+                email: res.locals.decodedHeaders
+            }
+        })
+        .then((user) => {
+            Plans.create({
+                name: req.body.name,
+                status: status.active,
+                userId: user.id,
+                type: planTypes.custom,
+                address: req.body.address,
+                expDate: req.body.expDate
+            })
+            .then((plan) =>  {
+                Plans.findByPk(plan.id)
+                .then((Plan) =>  {
+                    switch(req.body.custom) {
+                        case 'meals':
+                            break;
+                        case 'laundry':
+                            break;
+                        case 'rooms':
+                            break;
+                        case 'meals-laundry':
+                            break;
+                        case 'meals-rooms':
+                            break;
+                        case 'laundry-meals':
+                            break;
+                        case 'laundry-rooms':
+                            break;
+                        case 'rooms-meals':
+                            break;
+                        case 'rooms-laundry':
+                            break;
+                    }
+
+                    if(req.body.mealType) {
+                        Meals.create({
+                            name: Plan.name,
+                            frequency: req.body.mealFrequency,
+                            people: req.body.mealPeople,
+                            recipe: req.body.mealRecipe
+                        })
+                        .then((mealPlan) => 
+                            Laundry.create({
+                                name: Plan.name,
+                                frequency: req.body.laundryFrequency,
+                                clothes: req.body.laundryClothes
+                            })
+                            .then((laundryPlan) => {
+                                Rooms.create({
+                                    name: Plan.name,
+                                    frequency: req.body.RoomsFrequency,
+                                    rooms: req.body.roomsCount
+                                })
+                            })
+                            .catch((err) => res.status(400).send({error: err}))
+                        )
+                        .catch((err) => 
+                            res.status(400).send({error: err})
+                        )
+                    }
+
+                    PlanTypes.create({
+                        name: Plan.name,
+                        price: req.body.price,
+                        rooms: req.body.rooms,
+                        laundry: req.body.laundry,
+                        meals: req.body.meals,
+                        duration: req.body.duration
+                    })
+                }).catch(error => res.status(400).send({error: error}));
+            })
+            .catch(error => res.status(400).send({error: error}));
+        })
+        .catch((err) => {
+            res.status(400).send({
+                error: err
+            })
+        })
     }
 
 }

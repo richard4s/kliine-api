@@ -57,4 +57,5 @@ module.exports = (app) => {
     app.get('/api/plans/test', verifyHeaders, Plans.test);
     app.get('/api/plans/user', verifyHeaders, Plans.planForUser);
     app.post('/api/plans/create', verifyHeaders, Plans.createPlan);
+    app.post('/api/plans/create-custom', verifyHeaders, Plans.createCustomPlan);
 };
