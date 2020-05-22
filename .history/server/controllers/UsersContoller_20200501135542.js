@@ -9,9 +9,6 @@ var mailerhbs = require('nodemailer-express-handlebars');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
 const Sequelize = require('sequelize');
 const { Op } = Sequelize.Op;
 
@@ -48,29 +45,51 @@ module.exports = {
                 const token = jwt.sign({
                     data: req.body.email
                   }, process.env.JWT_SECRET , { expiresIn: '1h' });
-
-                  const msg = {
-                    to: req.body.email,
-                    from: 'afolabioluwo50@gmail.com',
-                    subject: 'Welcome to Kliine',
-                    text: 'and easy to do anywhere, even with Node.js',
-                    html: `<div align="center">
-                    <h2>Welcome to Kliine</h2>
-                    <p>Use this link to verify your email: ${req.headers.host}/api/verify-email/${token}</p>
-                    </div>`,
-                };
-
-                  sgMail.send(msg).then(() => {
-                    console.log('Message sent')
-        
-                    // res.status(200).send({
-                    //     success: 'Email sent!'
-                    // })
-                }).catch((error) => {
-                    console.log(error.response.body)
-                    res.status(400).send({
-                        error: error.response.body
-                    })
+                  
+                    let verifyOptions = {
+                        from: 'Kliine <noreply@kliine.com>',
+                        to: req.body.email,
+                        subject: 'Welcome to Kliine',
+                        template: 'welcome',
+                            context: { 
+                                userId: user.id,
+                                verifyUrl: req.headers.host,
+                                token: token
+                            }
+                    };
+                
+                    const transporter1 = nodemailer.createTransport({
+                        service: "gmail",
+                        auth: {
+                                user: 'afolabioluwo50@gmail.com',
+                                pass: 'burner_password123'
+                            }
+                    });
+                
+                    const handlebarOptions = {
+                        viewEngine: {
+                        extName: '.hbs',
+                        partialsDir: './mail/templates',
+                        layoutsDir: './mail/templates',
+                        defaultLayout: 'welcome.hbs',
+                        },
+                        viewPath: './mail/templates',
+                        extName: '.hbs',
+                    };
+                    
+                    transporter1.use('compile', mailerhbs(handlebarOptions));
+                    
+                    transporter1.sendMail(verifyOptions, (err, info) => {
+                        if(err)
+                            console.log(err)
+                        else
+                            console.log(info);
+                    }, (err, response) => {
+                        if (err) {
+                            res.status(400).json({
+                                error: 'Error sending email.'
+                            });
+                        }
                 })
 
                 res.status(200).send({
@@ -112,22 +131,22 @@ module.exports = {
     //Resend verification email
     resendVerification(req, res, next) {
         if(validator.isEmail(req.body.email)) {
-            // Users.findOne({
-            //     where: {
-            //         email: req.body.email
-            //     }
-            // })
-            // .then(user => {
-            //     if(user.emailVerified) {
+            Users.findOne({
+                where: {
+                    email: req.body.email
+                }
+            })
+            .then(user => {
+                if(user.emailVerified) {
 
-            //         return res.status(400).send({
-            //             error: 'Your email has already been verified.'
-            //         })
-            //     } 
-            //     else {
-            //         const token = jwt.sign({
-            //             data: req.body.email
-            //           }, process.env.JWT_SECRET , { expiresIn: '1h' });
+                    return res.status(400).send({
+                        error: 'Your email has already been verified.'
+                    })
+                } 
+                else {
+                    const token = jwt.sign({
+                        data: req.body.email
+                      }, process.env.JWT_SECRET , { expiresIn: '1h' });
                       
                         let verifyOptions = {
                             from: 'Kliine <noreply@kliine.com>',
@@ -135,8 +154,8 @@ module.exports = {
                             subject: 'Welcome to Kliine',
                             template: 'welcome',
                                 context: { 
-                                    verifyUrl: 'req.headers.host',
-                                    token: 'token'
+                                    verifyUrl: req.headers.host,
+                                    token: token
                                 }
                         };
                     
@@ -178,17 +197,17 @@ module.exports = {
                         success: 'Verification email sent',
                         toEmail: req.body.email
                     })                
-                // }            
-        //     })
-        //     .catch(error => {
-        //         return res.status(400).send({
-        //             error: error
-        //         });
-        //     }) 
-        // } else {
-        //     return res.status(400).send({
-        //         error: 'That does not look like a valid email'
-        //     });
+                }            
+            })
+            .catch(error => {
+                return res.status(400).send({
+                    error: error
+                });
+            }) 
+        } else {
+            return res.status(400).send({
+                error: 'That does not look like a valid email'
+            });
         }
     },
 
@@ -302,29 +321,51 @@ module.exports = {
             const token = jwt.sign({
                 data: req.body.email
               }, process.env.JWT_SECRET , { expiresIn: '1h' });
-
-              const msg = {
-                to: req.body.email,
-                from: 'afolabioluwo50@gmail.com',
-                subject: 'Kliine Password Reset',
-                text: 'and easy to do anywhere, even with Node.js',
-                html: `<div align="center">
-                <h2>Reset Password</h2>
-                <p>Use this link to verify your email: ${req.headers.host}/api/reset-password/${token}</p>
-                <p>If you did not make this request you do not have to do anything or contact us incase your account may have been compromised</p>
-                </div>`,
-            };
-
-              sgMail.send(msg).then(() => {
-                console.log('Message sent')
-            }).catch((error) => {
-                console.log(error.response.body)
-                res.status(400).send({
-                    error: error.response.body
-                })
-            })
               
-    
+                let verifyOptions = {
+                    from: 'Kliine <noreply@kliine.com>',
+                    to: req.body.email,
+                    subject: 'Kliine Password Reset',
+                    template: 'reset-password',
+                        context: { 
+                            verifyUrl: req.headers.host,
+                            token: token
+                        }
+                };
+            
+                const transporter1 = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                            user: 'afolabioluwo50@gmail.com',
+                            pass: 'burner_password123'
+                        }
+                });
+            
+                const handlebarOptions = {
+                    viewEngine: {
+                    extName: '.hbs',
+                    partialsDir: './mail/templates',
+                    layoutsDir: './mail/templates',
+                    defaultLayout: 'reset-password.hbs',
+                    },
+                    viewPath: './mail/templates',
+                    extName: '.hbs',
+                };
+                
+                transporter1.use('compile', mailerhbs(handlebarOptions));
+                
+                transporter1.sendMail(verifyOptions, (err, info) => {
+                    if(err)
+                        console.log(err)
+                    else
+                        console.log(info);
+                }, (err, response) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: 'Error sending email.'
+                        });
+                    }
+            })
     
             res.status(200).send({
                 success: 'Password reset email sent',
