@@ -53,7 +53,6 @@ module.exports = {
                     to: req.body.email,
                     from: 'afolabioluwo50@gmail.com',
                     subject: 'Welcome to Kliine',
-                    text: 'and easy to do anywhere, even with Node.js',
                     html: `<div align="center">
                     <h2>Welcome to Kliine</h2>
                     <p>Use this link to verify your email: ${req.headers.host}/api/verify-email/${token}</p>
@@ -307,7 +306,6 @@ module.exports = {
                 to: req.body.email,
                 from: 'afolabioluwo50@gmail.com',
                 subject: 'Kliine Password Reset',
-                text: 'and easy to do anywhere, even with Node.js',
                 html: `<div align="center">
                 <h2>Reset Password</h2>
                 <p>Use this link to verify your email: ${req.headers.host}/api/reset-password/${token}</p>
